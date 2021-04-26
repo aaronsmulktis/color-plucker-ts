@@ -122,8 +122,8 @@ export const Wheel: React.FC<WheelProps> = props => {
     const x = r * Math.cos(rad)
     const y = r * Math.sin(rad)
     return {
-      left: width / 2 + x,
-      top: height / 2 - y,
+      left: width / 2,
+      top: height / 2,
     }
   }
 
@@ -194,18 +194,18 @@ export const Wheel: React.FC<WheelProps> = props => {
 
       resetLoupe()
       return Animated.event(
-        // [
-        //   null,
-        //   {
-        //     dx: pan.x,
-        //     dy: pan.y,
-        //   },
-        // ],
-        [{ nativeEvent: {
-          dx: pan.x,
-          dy: pan.y,
-        }}],
-        { useNativeDriver: true }
+        [
+          null,
+          {
+            dx: pan.x,
+            dy: pan.y,
+          },
+        ],
+        // [{ nativeEvent: {
+        //   dx: pan.x,
+        //   dy: pan.y,
+        // }}],
+        { useNativeDriver: false }
       )(event, gestureState)
     },
     onMoveShouldSetPanResponder: () => true,
@@ -216,6 +216,9 @@ export const Wheel: React.FC<WheelProps> = props => {
       if (radius < 0.1) {
         forceUpdate('#ffffff')
       }
+      if (outBounds(nativeEvent)) return
+      updateColor({nativeEvent})
+      setLoupeReady(true)
 
       if (props.onColorChangeComplete) {
         props.onColorChangeComplete(hsv);
