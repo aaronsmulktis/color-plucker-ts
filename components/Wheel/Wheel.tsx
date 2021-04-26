@@ -137,16 +137,6 @@ export const Wheel: React.FC<WheelProps> = props => {
     props.onColorChange(hsv)
   }
 
-  const updateBrightness = value => {
-    console.log(`updateBrightness: ${value}`)
-    const {h,s,v} = hsv;
-    const newHsv = {h: h, s: s, v: value}
-    const newColor = colorsys.hsv2Hex(hsv)
-    setHsv(newHsv)
-    setCurrentColor(newColor)
-    props.onColorChange(hsv)
-  }
-
   const forceUpdate = color => {
     const {h, s, v} = colorsys.hex2Hsv(color)
     const {left, top} = calcCartesian(h, s / 100)
@@ -201,6 +191,7 @@ export const Wheel: React.FC<WheelProps> = props => {
             dy: pan.y,
           },
         ],
+        // Note: I was hoping to get native gestures working here
         // [{ nativeEvent: {
         //   dx: pan.x,
         //   dy: pan.y,
